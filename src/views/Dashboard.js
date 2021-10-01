@@ -1,7 +1,8 @@
 import React from "react";
+import CrudVentas from "./crudVenta";
 
 const Dashboard = () => {
-  return <h1>Dashboard View</h1>;
+  return <CrudVentas></CrudVentas>;
 };
 
 export default Dashboard;

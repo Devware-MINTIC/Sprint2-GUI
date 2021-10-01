@@ -1,7 +1,9 @@
 import React from "react";
+import CrudProducto from "./crudProducto";
 
 const Products = () => {
-  return <h1>Products View</h1>;
+  return <CrudProducto></CrudProducto>;
 };
 
 export default Products;
+
