@@ -1,8 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+import AppSales from "./AppSales";
+import { UserProvider } from "./context/UserContext";
+
 import "./index.scss";
 
-import AppSales from "./AppSales";
-
-ReactDOM.render(<AppSales />, document.getElementById("root"));
+ReactDOM.render(
+  <UserProvider>
+    <AppSales />
+  </UserProvider>,
+  document.getElementById("root")
+);

@@ -1,17 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import useAuth from "../hooks/useAuth";
 
 const Navbar = () => {
+
+  const { logout, isAdmin } = useAuth();
+
   return (
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <div class="nav-item">
-          <Link class="navbar-brand" to="/">
+    <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+      <div className="container-fluid">
+        <div className="nav-item">
+          <Link className="navbar-brand" to="/">
             Devware Store
           </Link>
         </div>
         <button
-          class="navbar-toggler"
+          className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target="#navbarNav"
@@ -19,25 +23,37 @@ const Navbar = () => {
           aria-expanded="false"
           aria-label="Toggle navigation"
         >
-          <span class="navbar-toggler-icon"></span>
+          <span className="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <Link to="/login" className="nav-link">
-                Login
+        <div className="collapse navbar-collapse" id="navbarNav">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <Link to="/" className="nav-link">
+                Vender
               </Link>
             </li>
-            <li class="nav-item">
+            <li className="nav-item">
               <Link to="/dashboard" className="nav-link">
-                Dashboard
+                Ventas
               </Link>
             </li>
-            <li class="nav-item">
-              <Link to="/user-management" className="nav-link">
-                UserManagement
-              </Link>
-            </li>
+            {isAdmin() && (
+            <>
+              <li className="nav-item">
+                <Link to="/products" className="nav-link">
+                  Productos
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link to="/user-management" className="nav-link">
+                  Usuarios
+                </Link>
+              </li>
+            </>
+            )}
+            <button className="btn btn-danger mx-3" onClick={logout}>
+              Cerrar Sesión
+            </button>
           </ul>
         </div>
       </div>
