@@ -1,7 +1,8 @@
 import React from "react";
+import CrudUsuario from "./crudUsuario";
 
 const UserManagement = () => {
-  return <h1>User Management View</h1>;
+  return <CrudUsuario></CrudUsuario>;
 };
 
 export default UserManagement;
