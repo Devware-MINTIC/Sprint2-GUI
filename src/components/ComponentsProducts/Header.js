@@ -98,7 +98,7 @@ const RealEstateInputs = ({
           value={location}
           onChange={(e) => setLocation(e.target.value)}
         >
-          <option value="">Choose disponibilidad</option>
+          <option value="">Seleccione disponibilidad</option>
           {LOCATIONS.map((location) => (
             <option key={location.value} value={location.title}>
               {location.title}
