@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../components/ComponentsProducts/products.css';
 import Header from '../components/ComponentsProducts/Header';
 import Listing from '../components/ComponentsProducts/Listing';
+import { getProducts } from '../services';
 
 function Products() {
   const initialState = [
@@ -115,6 +116,12 @@ function Products() {
       setFilteredListings(filteredListings);
     } else setFilteredListings([]);
   }, [listings, query]);
+
+  useEffect(() => {
+    getProducts().then((data) => {
+      console.log("PRODUCTS", data);
+    });
+  }, []);
 
   return (
     <div className="app">

@@ -37,7 +37,7 @@ const Login = () => {
                         Ingresa al sistema de ventas a través de Google
                       </h4>
                       <GoogleLogin
-                        clientId="306862549142-3jrh82gqhvjjquu0jauqcocjvc3bphis.apps.googleusercontent.com"
+                        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                         buttonText="Iniciar con Google"
                         onSuccess={handleLogin}
                         onFailure={handleLogin}

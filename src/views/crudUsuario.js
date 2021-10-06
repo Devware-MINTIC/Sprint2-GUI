@@ -3,6 +3,7 @@ import React from 'react';
 //import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Table, Button, Container, Modal, ModalBody, ModalHeader, FormGroup, ModalFooter} from 'reactstrap';
+import { getUserById } from '../services';
 
 const data = [
   {id: 1, correo: "usuario1@devware.com", rol:"Administrador", estado:"Autorizado"},
@@ -90,6 +91,12 @@ class CrudUsuario extends React.Component{
           },
         });
       };
+
+      componentDidMount(){
+        getUserById("615dfad5cdff6e13914010c3").then((res) => {
+          console.log("USER BY ID", res);
+        });
+      }
 
       render(){
          return(

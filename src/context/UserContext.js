@@ -5,7 +5,7 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
 
-  const [user, setUser] = useState(sessionStorage.getItem("user"));
+  const [user, setUser] = useState(JSON.parse(sessionStorage.getItem("user")));
   const [error, setError] = useState(null);
 
   const contextValue = {
@@ -13,8 +13,7 @@ export const UserProvider = ({ children }) => {
     error,
     login: async (tokenId) => {
       setError(null);
-      // await requestToken(tokenId, setUser, setError);
-      setUser({email: "ADMIN", role: "ADMIN"});
+      await requestToken(tokenId, setUser, setError);
     },
     logout: () => {
       setUser(null);
