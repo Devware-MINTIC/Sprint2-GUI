@@ -84,15 +84,18 @@ const Sales = () => {
 
   const getAllProducts = useCallback(() => {
     setIsLoading(true);
-    getProducts().then((data) => {
-      const newProducts = data?.products
-        .filter((product) => product.state)
-        .map((product) => ({
-          ...product,
-          amount: 0,
-        }));
-      setDataProducts(newProducts);
-    }).finally(() => setIsLoading(false));
+    setTimeout(() => {
+      getProducts().then((data) => {
+        const newProducts = data?.products
+          .filter((product) => product.state)
+          .map((product) => ({
+            ...product,
+            amount: 0,
+          }));
+        setDataProducts(newProducts);
+      }).finally(() => setIsLoading(false));
+    }, 200)
+    
   }, [setIsLoading]);
 
   useEffect(() => {
