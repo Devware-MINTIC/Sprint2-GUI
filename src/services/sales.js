@@ -26,7 +26,7 @@ export const createSale = async ({
 }) => {
   try {
     const userByIdResponse = await axios.post(
-      `${REACT_APP_BACKEND}/api/sales`,
+      `${REACT_APP_BACKEND}/api/sales/create`,
       { products, customerIdNumber, customerName, salesManager },
       {
         headers: {
