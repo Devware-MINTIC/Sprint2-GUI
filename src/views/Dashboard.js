@@ -11,6 +11,8 @@ import FirstPage from "@material-ui/icons/FirstPage";
 import LastPage from "@material-ui/icons/LastPage";
 import Search from "@material-ui/icons/Search";
 
+import useAuth from "../hooks/useAuth"
+
 import { getSales, updateSaleById } from "../services/sales";
 
 const tableIcons = {
@@ -29,12 +31,14 @@ const tableIcons = {
 };
 
 const Dashboard = () => {
+  const { setIsLoading } = useAuth();
   const [dataSales, setDataSales] = useState([]);
 
   useEffect(() => {
+    setIsLoading(true);
     getSales().then((data) => {
       setDataSales(data?.sales);
-    });
+    }).finally(() => setIsLoading(false));
   }, []);
 
   const columns = [
@@ -64,6 +68,7 @@ const Dashboard = () => {
   ];
 
   const handleRowUpdate = (newData, oldData, resolve) => {
+    setIsLoading(true);
     updateSaleById({
       uid: newData.uid,
       state: newData.state,
@@ -73,7 +78,7 @@ const Dashboard = () => {
       dataUpdate[index] = newData;
       setDataSales([...dataUpdate]);
       resolve();
-    });
+    }).finally(() => setIsLoading(false));
   };
 
   return (

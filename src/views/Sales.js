@@ -34,7 +34,7 @@ const Sales = () => {
   const [dataProducts, setDataProducts] = useState([]);
   const [customerIdNumber, setCustomerIdNumber] = useState("");
   const [customerName, setCustomerName] = useState("");
-  const { user } = useAuth();
+  const { user, setIsLoading } = useAuth();
 
   const isSaleValid =
     dataProducts?.some((product) => product.amount > 0) &&
@@ -63,6 +63,7 @@ const Sales = () => {
   };
 
   const handleCreateSale = () => {
+    setIsLoading(true);
     const products = dataProducts
       .filter((product) => product.amount > 0)
       .map((product) => {
@@ -78,10 +79,11 @@ const Sales = () => {
       setCustomerIdNumber("");
       setCustomerName("");
       getAllProducts();
-    });
+    }).finally(() => setIsLoading(false));
   };
 
   const getAllProducts = useCallback(() => {
+    setIsLoading(true);
     getProducts().then((data) => {
       const newProducts = data?.products
         .filter((product) => product.state)
@@ -90,8 +92,8 @@ const Sales = () => {
           amount: 0,
         }));
       setDataProducts(newProducts);
-    });
-  }, []);
+    }).finally(() => setIsLoading(false));
+  }, [setIsLoading]);
 
   useEffect(() => {
     getAllProducts();
@@ -141,7 +143,7 @@ const Sales = () => {
       <div className="d-flex justify-content-between mt-5">
         <h2>
           Total:{" "}
-          {dataProducts.reduce((total, product) => {
+          {dataProducts?.reduce((total, product) => {
             return total + product.value * product.amount;
           }, 0)}
         </h2>
