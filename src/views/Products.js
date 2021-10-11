@@ -124,7 +124,7 @@ function Products() {
   }, []);
 
   return (
-    <div className="app">
+    <div className="products">
       <Header
         query={query}
         handleQueryChange={handleQueryChange}
