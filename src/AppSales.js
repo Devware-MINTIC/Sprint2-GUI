@@ -11,9 +11,10 @@ import UserManagement from "./views/UserManagement";
 import PrivateRoute from "./routes/PrivateRoute";
 import PublicRoute from "./routes/PublicRoute";
 import useAuth from "./hooks/useAuth";
+import Loader from "./components/Loader/Loader";
 
 const AppSales = () => {
-  const { user } = useAuth();
+  const { user, isLoading } = useAuth();
   
   return (
     <div>
@@ -29,6 +30,7 @@ const AppSales = () => {
             <Redirect to="/" />
           </Route>
         </Switch>
+        <Loader isShowLoading={isLoading} />
       </BrowserRouter>
     </div>
   );
