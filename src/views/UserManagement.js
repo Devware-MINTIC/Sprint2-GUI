@@ -46,7 +46,15 @@ const UserManagement = () => {
   const columns = [
     { title: "uid", field: "uid", hidden: true, editable: "never" },
     { title: "Email", field: "email", editable: "never" },
-    { title: "Rol", field: "role", editable: "onUpdate" },
+    { 
+      title: "Rol", 
+      field: "role", 
+      editable: "onUpdate",
+      lookup: {
+        ADMIN: "Administrador",
+        SELLER: "Vendedor"
+      },
+    },
     {
       title: "Estado",
       field: "state",
