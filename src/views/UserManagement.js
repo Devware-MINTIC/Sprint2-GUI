@@ -46,7 +46,7 @@ const UserManagement = () => {
   const columns = [
     { title: "uid", field: "uid", hidden: true, editable: "never" },
     { title: "Email", field: "email", editable: "never" },
-    { title: "Rol", field: "role", editable: "never" },
+    { title: "Rol", field: "role", editable: "onUpdate" },
     {
       title: "Estado",
       field: "state",
@@ -64,6 +64,7 @@ const UserManagement = () => {
     updateUserById({
       uid: newData.uid,
       state: newData.state,
+      role: newData.state,
     }).then(() => {
       const dataUpdate = [...dataUsers];
       const index = oldData.tableData.id;
