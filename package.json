@@ -44,5 +44,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/Devware-MINTIC/Sprint2-GUI.git",
+  "author": "Katherine Arias <katherinearias0526@gmail.com>",
+  "license": "MIT"
 }
