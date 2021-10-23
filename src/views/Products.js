@@ -1,4 +1,4 @@
-import React, { useEffect, useState, forwardRef, useCallback } from "react";
+import React, { useEffect, useState, forwardRef } from "react";
 
 import MaterialTable from "material-table";
 import ArrowDownward from "@material-ui/icons/ArrowDownward";
@@ -10,13 +10,17 @@ import Edit from "@material-ui/icons/Edit";
 import FirstPage from "@material-ui/icons/FirstPage";
 import LastPage from "@material-ui/icons/LastPage";
 import Search from "@material-ui/icons/Search";
+import AddBox from '@material-ui/icons/AddBox';
 
 import useAuth from "../hooks/useAuth"
 
 import { getProducts, updateProductById, createProduct } from "../services/products";
+//updateProductById
+//getProducts
 
 const tableIcons = {
   Check: forwardRef((props, ref) => <Check {...props} ref={ref} />),
+  Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
   Clear: forwardRef((props, ref) => <Clear {...props} ref={ref} />),
   Edit: forwardRef((props, ref) => <Edit {...props} ref={ref} />),
   FirstPage: forwardRef((props, ref) => <FirstPage {...props} ref={ref} />),
@@ -30,18 +34,11 @@ const tableIcons = {
   SortArrow: forwardRef((props, ref) => <ArrowDownward {...props} ref={ref} />),
 };
 
+
 const Products = () => {
   const { setIsLoading } = useAuth();
   const [dataProducts, setDataProducts] = useState([]);
-  const [name, setName] = useState("");
-  const [value, setValue] = useState("");
-  const [status, setStatus] = useState(true);
-
-  const isSaleValid =
-  dataProducts?.some((product) => product.value > 0) &&
-  !!name &&
-  !!status;
-
+  
   useEffect(() => {
     setIsLoading(true);
     getProducts().then((data) => {
@@ -51,34 +48,28 @@ const Products = () => {
 
   const columns = [
     { title: "uid", field: "uid", hidden: true, editable: "never" },
+    { title: "Nombre del Producto", field: "name", editable: "never" },
+    { title: "Precio", field: "value", editable: "onUpdate" },
     { 
-      title: "Nombre del producto", 
-      field: "name", 
-      editable: "onUpdate" 
-    },
-    { 
-      title: "Precio", 
-      field: "value", 
+      title: "Disponibilidad", 
+      field: "state", 
       editable: "onUpdate",
-      type: "numeric",
-      validate: (rowData) => rowData.value >= 0,
-    },
-    {
-      title: "Disponibilidad",
-      field: "state",
-      editable: "onUpdate",
-      type: "boolean",
-      
+      lookup: {
+        true: "Disponible",
+        false: "No Disponible"
+      },
     },
     
-   
   ];
-
   const handleRowUpdate = (newData, oldData, resolve) => {
     setIsLoading(true);
+    console.log(newData)
     updateProductById({
       uid: newData.uid,
       state: newData.state,
+      value: newData.value,
+      //name: newData.name,
+
     }).then(() => {
       const dataUpdate = [...dataProducts];
       const index = oldData.tableData.id;
@@ -87,78 +78,27 @@ const Products = () => {
       resolve();
     }).finally(() => setIsLoading(false));
   };
-  const handleCreateProduct = () => {
+
+  const handleCreateProduct = (newData, resolve) => {
     setIsLoading(true);
-    const products = dataProducts
-      .filter((product) => product.value > 0)
-      .map((product) => {
-        const { tableData, state, ...rest } = product;
-        return rest;
-      });
+    const{name, value, state}=newData;
     createProduct({
       name,
       value,
-      status,
+      state,
     }).then((response) => {
-      setName("");
-      setValue();
-      setStatus(true);
 
+      console.log(response)
+      //setName("");
+      //setValue();
+      //setState(true);
+      resolve();
     }).finally(() => setIsLoading(false));
   };
 
-  const getAllProducts = useCallback(() => {
-    setIsLoading(true);
-    setTimeout(() => {
-      getProducts().then((data) => {
-        const newProducts = data?.products
-          .filter((product) => product.state)
-          .map((product) => ({
-            ...product,
-            value: 0,
-          }));
-        setDataProducts(newProducts);
-      }).finally(() => setIsLoading(false));
-    }, 200)
-    
-  }, [setIsLoading]);
-
-  useEffect(() => {
-    getAllProducts();
-  }, [getAllProducts]);
-   
-
   return (
     <div className="container">
-      <div class="my-3 row">
-        <div class="col">
-          <label>Nombre del producto</label>
-          <input
-            type="text"
-            class="form-control"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-        </div>
-        <div class="col">
-          <label>Precio del producto</label>
-          <input
-            type="number"
-            class="form-control"
-            value={value}
-            onChange={(e) => setValue(e.target.value)}
-          />
-        </div>
-        <div class="col">
-          <label>Disponibilidad</label>
-          <input
-            type="boolean"
-            class="form-control"
-            value={status}
-            onChange={(e) => setStatus(e.target.value)}
-          />
-        </div>
-      </div>
+      <h1 className="my-3">Productos</h1>
       <MaterialTable
         title=""
         columns={columns}
@@ -169,27 +109,18 @@ const Products = () => {
             new Promise((resolve) => {
               handleRowUpdate(newData, oldData, resolve);
             }),
+            onRowAdd: (newData) =>
+            new Promise((resolve) => {
+              handleCreateProduct(newData, resolve)
+            }),
         }}
         options={{
           actionsColumnIndex: -1,
-        }}
-        style={{
-          display: "grid",
-          height: "350px",
+          sorting: true,
         }}
       />
-      <div className="d-flex justify-content-between mt-5">
-         <button
-          disabled={!isSaleValid}
-          className="btn btn-success px-5"
-          onClick={handleCreateProduct}
-        >
-          Crear Producto
-        </button>
-      </div>
     </div>
   );
 };
-
 
 export default Products;

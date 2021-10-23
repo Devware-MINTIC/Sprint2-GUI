@@ -12,8 +12,6 @@ import LastPage from "@material-ui/icons/LastPage";
 import Search from "@material-ui/icons/Search";
 
 import useAuth from "../hooks/useAuth"
-//import CrudUsuario from "./crudUsuario";
-
 import { getUsers, updateUserById } from "../services/users";
 
 const tableIcons = {

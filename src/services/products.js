@@ -62,11 +62,11 @@ export const createProduct = async ({
   }
 };
 
-export const updateProductById = async ({ uid, state }) => {
+export const updateProductById = async ({ uid, state, value }) => {
   try {
     const userByIdResponse = await axios.put(
       `${REACT_APP_BACKEND}/api/products`,
-      { uid, state },
+      { uid, state,  value },
       {
         headers: {
           "Content-Type": "application/json",
