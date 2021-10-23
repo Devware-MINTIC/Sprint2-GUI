@@ -138,12 +138,8 @@ const Sales = () => {
         options={{
           actionsColumnIndex: -1,
         }}
-        style={{
-          display: "grid",
-          height: "350px",
-        }}
       />
-      <div className="d-flex justify-content-between mt-5">
+      <div className="d-flex justify-content-between my-5">
         <h2>
           Total:{" "}
           {dataProducts?.reduce((total, product) => {
