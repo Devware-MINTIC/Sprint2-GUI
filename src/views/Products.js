@@ -64,10 +64,10 @@ const Products = () => {
 
   const handleRowUpdate = (newData, oldData, resolve) => {
     setIsLoading(true);
-    console.log(newData)
+    const boolState = newData.state === 'true' ? true : false;
     updateProductById({
       uid: newData.uid,
-      state: newData.state,
+      state: boolState,
       value: newData.value,
       name: newData.name,
     }).then(() => {
